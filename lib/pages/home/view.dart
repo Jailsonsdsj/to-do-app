@@ -18,19 +18,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FormController _formController = Get.put(FormController());
 
-  final RxList _data = [].obs;
+  final RxList<Map<String, String>> _data = RxList<Map<String, String>>([]);
 
   @override
   void initState() {
-    _loadData();
+    _formController.loadData();
+    _data.bindStream(_formController.data.stream);
     super.initState();
-  }
-
-  Future<void> _loadData() async {
-    List<Map<String, String>> data = await _formController.loadData();
-    setState(() {
-      _data.value = data;
-    });
   }
 
   @override
